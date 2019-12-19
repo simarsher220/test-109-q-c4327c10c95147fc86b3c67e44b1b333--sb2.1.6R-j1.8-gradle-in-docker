@@ -1,7 +1,9 @@
 package org.codejudge.sb.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.codejudge.sb.entity.Driver;
 import org.codejudge.sb.mapper.PassengerMapper;
+import org.codejudge.sb.model.AvailableDrivers;
 import org.codejudge.sb.model.Location;
 import org.codejudge.sb.service.PassengerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,8 @@ public class PassengerController {
     }
 
     @RequestMapping(value = "/passenger/available_cabs/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getAvailableCabs(@RequestBody Location request) {
+    @ApiOperation("Get a list of cabs which are within, <= 4km range of passenger (using haversine distance)")
+    public ResponseEntity<AvailableDrivers> getAvailableCabs(@RequestBody Location request) {
         Location.validate(request);
         List<Driver> drivers = passengerService.getAvailableCabs(request);
         return new ResponseEntity<>(PassengerMapper.getAvailableDriversForDrivers(drivers),HttpStatus.OK);

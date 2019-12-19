@@ -29,5 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	compile 'com.h2database:h2:1.4.191'
 	compile 'org.gavaghan:geodesy:1.1.3'
+	compile 'io.springfox:springfox-swagger2:2.4.0'
+	compile 'io.springfox:springfox-swagger-ui:2.4.0'
 
 }

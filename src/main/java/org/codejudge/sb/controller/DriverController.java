@@ -1,8 +1,10 @@
 package org.codejudge.sb.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.codejudge.sb.entity.Driver;
 import org.codejudge.sb.mapper.DriverMapper;
 import org.codejudge.sb.model.DriverRequest;
+import org.codejudge.sb.model.DriverResponse;
 import org.codejudge.sb.model.Location;
 import org.codejudge.sb.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +26,15 @@ public class DriverController {
     }
 
     @RequestMapping(value = "/driver/register/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity register(@RequestBody DriverRequest request) {
+    @ApiOperation("Recruit a driver to our cab service")
+    public ResponseEntity<DriverResponse> register(@RequestBody DriverRequest request) {
         DriverRequest.validateDriverRequest(request);
         Driver driver = driverService.registerDriver(request);
         return new ResponseEntity<>(DriverMapper.getDriverResponseForDriver(driver), HttpStatus.CREATED);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
+    @ApiOperation("Tell the platform where the driver currently is")
     @RequestMapping(value = "/driver/{id}/sendLocation/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void sendDriverLocation(@PathVariable("id") UUID id, @RequestBody Location request) {
         Location.validate(request);
